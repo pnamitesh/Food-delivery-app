@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
-export const connectDB = async ()=>{
-    (await mongoose.connect('mongodb+srv://greatstack:1223334444@cluster0.q6kbqdb.mongodb.net/food-del').then(()=> console.log("DB connected")));
-}
-// exporting this function so that we can use it in the server.js file 
+export const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ MongoDB connected");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1);
+  }
+};
